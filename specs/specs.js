@@ -6,6 +6,7 @@ var Baddy = require('../baddy')
 var Healer = require('../healer')
 var Treasure = require('../treasure')
 var EmporiumOfMiscellany = require('../emporium_of_miscellany')
+var Steed = require('../steed')
 
 describe( 'Hero', function() {
 
@@ -16,13 +17,15 @@ describe( 'Hero', function() {
   var robbie
   var diamond
   var ruby
+  var stallion
 
   beforeEach(function(){
-    charley = new Hero("Charley", "game pie", 85, "golf club", 100, 1, 50);
+    charley = new Hero("Charley", "game pie", 85, "golf club", 100, 1, 50, 12);
     gamePie = new Food("game pie", 15, false);
     chips = new Food("chips", 5, false);
     apple = new Food("apple", 5, true);
     ruby = new Treasure("ruby", 2000);
+    stallion = new Steed("Thunderbolt", 20);
     diamond = new Treasure("diamond", 5000);
     robbie = new Baddy("Robbie the Destroyer", 90, "shovel", 100, false, [diamond, ruby]);
   })
@@ -41,6 +44,10 @@ describe( 'Hero', function() {
 
   it("should have health", function(){
     assert.equal(85, charley.health);
+  })
+
+  it("should be able to ride a steed", function(){
+    assert.deepEqual("Racing along at 20 miles per hour", charley.rideSteed(stallion));
   })
 
   it("should have favourite food", function(){
@@ -168,7 +175,7 @@ describe('Baddy', function(){
     ruby = new Treasure ("ruby", 2000);
     diamond = new Treasure ("diamond", 5000);
     robbie = new Baddy("Robbie the Destroyer", 90, "shovel", 100, false, [diamond, ruby]);
-    charley = new Hero("Charley", "game pie", 85, "golf club", 100, 1, 50);
+    charley = new Hero("Charley", "game pie", 85, "golf club", 100, 1, 50, 12);
   })
 
   it("should have a name", function(){
@@ -211,7 +218,7 @@ describe('Healer', function(){
 
   beforeEach(function(){
     phil = new Healer("Phil the Healer", 20);
-    charley = new Hero("Charley", "game pie", 85, "golf club", 100, 1, 50);
+    charley = new Hero("Charley", "game pie", 85, "golf club", 100, 1, 50, 12);
   })
 
   it("has a name", function(){
@@ -241,7 +248,7 @@ describe( 'EmporiumOfMiscellany', function() {
     magicalTavern = new EmporiumOfMiscellany("Alan", 20000, []);
     ruby = new Treasure("ruby", 2000);
     diamond = new Treasure("diamond", 4000);
-    charley = new Hero("Charley", "game pie", 85, "golf club", 100, 1, 50);
+    charley = new Hero("Charley", "game pie", 85, "golf club", 100, 1, 50, 12);
   })
 
   it("should have a shopkeeper", function(){
@@ -279,5 +286,24 @@ describe( 'EmporiumOfMiscellany', function() {
     assert.deepEqual([], magicalTavern.itemsForSale);
   })
 
+})
+
+  describe( 'Steed', function() {
+
+    var stallion;
+    var charley;
+
+    beforeEach(function(){
+      charley = new Hero("Charley", "game pie", 85, "golf club", 100, 1, 50, 12);
+      stallion = new Steed("Thunderbolt", 20);
+    })
+
+    it("has a name", function(){
+      assert.equal("Thunderbolt", stallion.name);
+    })
+
+    it("has a speed", function(){
+      assert.equal(20, stallion.speed);
+    })
 
 })

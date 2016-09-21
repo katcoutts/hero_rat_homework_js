@@ -17,7 +17,11 @@ Baddy.prototype = {
       hero.forceShield -= 1;
     }
     else{
-      hero.health -= this.strength/5;}
+      hero.health -= this.strength/5;
+    }
+      if (hero.health < 0){
+        hero.health = 0;
+      }
   },
 
   drinks: function(){

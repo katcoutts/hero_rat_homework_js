@@ -1,4 +1,4 @@
-var Hero = function(name, favouriteFood, health, weapon, strength, forceShield, cash){
+var Hero = function(name, favouriteFood, health, weapon, strength, forceShield, cash, speed, steed){
   this.name = name;
   this.favouriteFood = favouriteFood;
   this.health = health;
@@ -7,12 +7,19 @@ var Hero = function(name, favouriteFood, health, weapon, strength, forceShield, 
   this.forceShield = forceShield;
   this.treasureBag = [];
   this.cash = cash;
+  this.speed = speed;
 }
 
 Hero.prototype = {
   talk: function(){
     return "Hi, I'm " + this.name + " the hero";
   },
+
+  rideSteed: function(steed){
+    return "Racing along at " + steed.speed + " miles per hour";
+  },
+
+
   eat: function(food){
     if (food.poisonous === true){
       this.health = this.health/2;
@@ -29,7 +36,10 @@ Hero.prototype = {
   },
 
   attacks: function(baddy){
-    baddy.health -= this.strength/4;   
+    baddy.health -= this.strength/4;
+    if (baddy.health <= 0){
+      baddy.health = 0;
+    }   
   },
 
   treasureValue: function(){
