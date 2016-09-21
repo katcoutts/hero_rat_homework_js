@@ -1,0 +1,14 @@
+{
+  "name": "hero_rat_game",
+  "version": "1.0.0",
+  "description": "",
+  "main": "food.js",
+  "scripts": {
+    "test": "mocha specs/specs.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "mocha": "^3.0.2"
+  }
+}
