@@ -1,4 +1,4 @@
-var Hero = function(name, favouriteFood, health, weapon, strength, forceShield){
+var Hero = function(name, favouriteFood, health, weapon, strength, forceShield, cash){
   this.name = name;
   this.favouriteFood = favouriteFood;
   this.health = health;
@@ -6,6 +6,7 @@ var Hero = function(name, favouriteFood, health, weapon, strength, forceShield){
   this.strength = strength;
   this.forceShield = forceShield;
   this.treasureBag = [];
+  this.cash = cash;
 }
 
 Hero.prototype = {
@@ -37,6 +38,11 @@ Hero.prototype = {
       value += treasure.value;
     }
     return value;
+  },
+
+  removeATreasure: function(treasure){
+    var index = this.treasureBag.indexOf(treasure);
+    this.treasureBag.splice(index, 1);
   },
 
   killerBlow: function(baddy){

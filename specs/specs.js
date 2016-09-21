@@ -18,7 +18,7 @@ describe( 'Hero', function() {
   var ruby
 
   beforeEach(function(){
-    charley = new Hero("Charley", "game pie", 85, "golf club", 100, 1);
+    charley = new Hero("Charley", "game pie", 85, "golf club", 100, 1, 50);
     gamePie = new Food("game pie", 15, false);
     chips = new Food("chips", 5, false);
     apple = new Food("apple", 5, true);
@@ -71,6 +71,14 @@ describe( 'Hero', function() {
     charley.getTreasure(diamond);
     assert.deepEqual([diamond, diamond], charley.treasureBag);
     assert.equal(10000, charley.treasureValue());
+  })
+
+  it("can remove a treasure", function(){
+    charley.getTreasure(diamond);
+    charley.getTreasure(ruby);
+    charley.getTreasure(ruby);
+    charley.removeATreasure(ruby);
+    assert.deepEqual([diamond, ruby], charley.treasureBag);
   })
 
   it("can get treasure off baddy", function(){
@@ -160,7 +168,7 @@ describe('Baddy', function(){
     ruby = new Treasure ("ruby", 2000);
     diamond = new Treasure ("diamond", 5000);
     robbie = new Baddy("Robbie the Destroyer", 90, "shovel", 100, false, [diamond, ruby]);
-    charley = new Hero("Charley", "game pie", 85, "golf club", 100, 1);
+    charley = new Hero("Charley", "game pie", 85, "golf club", 100, 1, 50);
   })
 
   it("should have a name", function(){
@@ -203,7 +211,7 @@ describe('Healer', function(){
 
   beforeEach(function(){
     phil = new Healer("Phil the Healer", 20);
-    charley = new Hero("Charley", "game pie", 85, "golf club", 100, 1);
+    charley = new Hero("Charley", "game pie", 85, "golf club", 100, 1, 50);
   })
 
   it("has a name", function(){
@@ -226,10 +234,14 @@ describe( 'EmporiumOfMiscellany', function() {
 
   var magicalTavern;
   var ruby;
+  var diamond;
+  var charley;
 
   beforeEach(function(){
     magicalTavern = new EmporiumOfMiscellany("Alan", 20000, []);
     ruby = new Treasure("ruby", 2000);
+    diamond = new Treasure("diamond", 4000);
+    charley = new Hero("Charley", "game pie", 85, "golf club", 100, 1, 50);
   })
 
   it("should have a shopkeeper", function(){
@@ -240,15 +252,31 @@ describe( 'EmporiumOfMiscellany', function() {
     assert.equal(20000, magicalTavern.float);
   })
 
-  it("should be ablet to pay for treasure", function(){
-    magicalTavern.buyTreasure(ruby);
+  it("should be able to pay for treasure", function(){
+    charley.getTreasure(ruby);
+    magicalTavern.buyTreasure(ruby, charley);
     assert.deepEqual([ruby], magicalTavern.itemsForSale);
     assert.equal(18000, magicalTavern.float);
+    assert.equal(2050, charley.cash);
   })
 
   it("should be able to mark-up value of treasure", function(){
-    magicalTavern.buyTreasure(ruby);
+    charley.getTreasure(ruby);
+    magicalTavern.buyTreasure(ruby, charley);
     assert.equal(4000, ruby.value);
+  })
+
+  it("should be able to sell an item", function(){
+    charley.getTreasure(ruby);
+    charley.getTreasure(diamond);
+    magicalTavern.buyTreasure(ruby, charley);
+    magicalTavern.buyTreasure(diamond, charley);
+    magicalTavern.sellItem(ruby);
+    assert.equal(4000, ruby.value);
+    assert.equal(18000, magicalTavern.float);
+    magicalTavern.sellItem(diamond);
+    assert.equal(26000, magicalTavern.float);
+    assert.deepEqual([], magicalTavern.itemsForSale);
   })
 
 
